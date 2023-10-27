@@ -8,10 +8,11 @@ import com.example.pruebaJPA.entity.UserEntity;
 import com.example.pruebaJPA.exception.UserGenericException;
 import com.example.pruebaJPA.repository.IUserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,16 +27,19 @@ public class UserServiceImpl implements IServiceUser {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // GET => usando Paginación
     @Override
-    public List<UserDto> getUsers() {
+    public Page<UserDto> getUsers(Pageable pagination) {
 
-        List<UserEntity> users = repository.findAll();
+        // Hay un findAll() que acepta como parámetro una paginación
+        Page<UserEntity> users = repository.findAll(pagination);
 
         if(users == null) {
             throw new UserGenericException("No users found");
         }
-        List<UserDto> usersDto = users.stream().map(u ->
-                new UserDto(u.getId(), u.getUsername(), u.getName(), u.getRoles())).toList();
+        Page<UserDto> usersDto = users.map(u ->{
+              return new UserDto(u.getId(), u.getUsername(), u.getName(), u.getRoles());
+        });
         return usersDto;
     }
 

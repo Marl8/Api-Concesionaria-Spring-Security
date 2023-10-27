@@ -4,10 +4,11 @@ import com.example.pruebaJPA.dto.UserDto;
 import com.example.pruebaJPA.dto.UserResponseDto;
 import com.example.pruebaJPA.dto.UserSaveDto;
 import com.example.pruebaJPA.dto.UserUpdateDto;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IServiceUser {
-    List<UserDto> getUsers();
+    Page<UserDto> getUsers(Pageable pagination);
 
     UserResponseDto save(UserSaveDto userDto);
 

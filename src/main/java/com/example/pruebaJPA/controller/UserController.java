@@ -5,6 +5,8 @@ import com.example.pruebaJPA.dto.UserUpdateDto;
 import com.example.pruebaJPA.service.IServiceUser;
 import com.example.pruebaJPA.service.UserServiceImpl;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +22,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<?> getUsers(){
-        return new ResponseEntity<>(service.getUsers(), HttpStatus.OK);
+    public ResponseEntity<?> getUsers(@PageableDefault (size = 2, sort = {"username"}) Pageable pageable){
+        return new ResponseEntity<>(service.getUsers(pageable), HttpStatus.OK);
     }
 
     @PostMapping("/save")

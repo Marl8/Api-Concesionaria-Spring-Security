@@ -4,17 +4,16 @@ import com.example.pruebaJPA.dto.VehiculoDto;
 import com.example.pruebaJPA.dto.VehiculoGetDto;
 import com.example.pruebaJPA.dto.VehiculoResponseDto;
 import com.example.pruebaJPA.entity.Vehiculo;
-import com.example.pruebaJPA.exception.VehiculoClonException;
-import com.example.pruebaJPA.exception.VehiculoNoSaveException;
-import com.example.pruebaJPA.exception.VehiculoNotFoundException;
-import com.example.pruebaJPA.exception.VehiculoNotFoundIdException;
+import com.example.pruebaJPA.exception.*;
 import com.example.pruebaJPA.repository.IvehiculoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VehiculoServiceImpl implements IvehiculoService{
@@ -155,6 +154,43 @@ public class VehiculoServiceImpl implements IvehiculoService{
             throw new VehiculoNotFoundException("No se encontraron vehículos en el rango seleccionado");
         }
         return result.stream().map(v -> mapper.convertValue(v, VehiculoDto.class)).toList();
+    }
+
+    @Transactional
+    @Override
+    public VehiculoResponseDto modificarVehiculo(VehiculoDto vehiculoDto) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        Vehiculo vehiculo = mapper.convertValue(vehiculoDto, Vehiculo.class);
+        Optional<Vehiculo> encontrado = repository.findById(vehiculo.getId());
+
+        if(encontrado.isPresent()) {
+            Vehiculo modificado = encontrado.get();
+            modificado.setBrand(vehiculo.getBrand());
+            modificado.setModel(vehiculo.getModel());
+            modificado.setManufacturingDate(vehiculo.getManufacturingDate());
+            modificado.setDoors(vehiculo.getDoors());
+            modificado.setPrice(vehiculo.getPrice());
+            modificado.setNumberOfKilometers(vehiculo.getNumberOfKilometers());
+            modificado.setCurrency(vehiculo.getCurrency());
+            modificado.setCountOfOwners(vehiculo.getCountOfOwners());
+            modificado.setServices(vehiculo.getServices());
+        }else{
+            throw new VehiculoNotFoundException("Vehículo inexistente");
+        }
+        return new VehiculoResponseDto("Vehículo modificado con éxito");
+    }
+
+    @Override
+    public VehiculoResponseDto eliminarVehiculo(Long id) {
+        Optional<Vehiculo> vehiculo = repository.findById(id);
+
+        if(vehiculo.isPresent()) {
+            repository.deleteById(id);
+        }else{
+            throw new VehiculoNotFoundException("Vehículo inexistente");
+        }
+        return new VehiculoResponseDto("El usuario fue eliminado con éxito");
     }
 
     /*

@@ -4,7 +4,6 @@ import com.example.pruebaJPA.entity.Vehiculo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
 public interface IvehiculoRepository extends JpaRepository<Vehiculo, Long> {
 
     // Usando consulta SQL
-   /* @Query(value = "SELECT * FROM vehiculos WHERE manufacturing_date > ?1 AND manufacturing_date <= ?2",
+   /* @Query(value = "SELECT * FROM vehículos WHERE manufacturing_date > ?1 AND manufacturing_date <= ?2",
             nativeQuery = true)*/
 
     // Usando consulta JPQL

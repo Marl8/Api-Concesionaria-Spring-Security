@@ -20,12 +20,12 @@ public class VehiculoController {
         this.service = vehiculoService;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> guardarVehiculo(@Valid @RequestBody VehiculoDto vehiculoDto){
-        return new ResponseEntity<>(service.guardarVehiculo(vehiculoDto), HttpStatus.OK);
+        return new ResponseEntity<>(service.guardarVehiculo(vehiculoDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<?> findAllSinServices(){
         return new ResponseEntity<>(service.findAllSinServices(), HttpStatus.OK);
     }
@@ -45,5 +45,15 @@ public class VehiculoController {
     @GetMapping("/prices")
     public ResponseEntity<?> findVehiculoByPrices(@Valid @RequestParam int since, @Valid @RequestParam int to){
         return new ResponseEntity<>(service.findVehiculosByPrice(since, to), HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> modificarVehiculo(@Valid @RequestBody VehiculoDto vehiculoDto){
+        return new ResponseEntity<>(service.modificarVehiculo(vehiculoDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarVehiculo(@Valid @PathVariable Long id){
+        return new ResponseEntity<>(service.eliminarVehiculo(id), HttpStatus.OK);
     }
 }

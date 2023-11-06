@@ -116,6 +116,13 @@ public class VehiculoServiceImpl implements IvehiculoService{
          */
 
         // Verificar si existe el id si no existe lanza la excepción
+
+        /*
+        if(repository.existsById(idVehiculo)) {
+            throw new VehiculoNotFoundIdException("No existen vehículos con este Id");
+        }
+        * */
+
         if(!verificarSiExisteId(id)){
             throw new VehiculoNotFoundIdException("No existen vehículos con este Id");
         }
@@ -140,7 +147,8 @@ public class VehiculoServiceImpl implements IvehiculoService{
     public List<VehiculoGetDto> findVehiculosByPrice(int price1, int price2) {
         List<Vehiculo> result = repository.findVehiculosByPrice(price1, price2);
         return convertirDto(result);
-    }*/
+    }
+    * */
 
 
     // Usando un dto con todos los atributos (Incluyendo Services)
@@ -204,7 +212,8 @@ public class VehiculoServiceImpl implements IvehiculoService{
                     v.getCountOfOwners()));
         });
         return listaResponse;
-    }*/
+    }
+    * */
 
     // Método lambda para convertir a dto usando Map()
     private List<VehiculoGetDto> convertirDto(List<Vehiculo> lista){
@@ -239,7 +248,7 @@ public class VehiculoServiceImpl implements IvehiculoService{
         }
         return fecha;
     }
-    */
+    * */
 
     // Verifica si el vehículo recibido ya existe en la BD
     private boolean verificarSiExiste(VehiculoDto vehiculo){
@@ -271,7 +280,7 @@ public class VehiculoServiceImpl implements IvehiculoService{
         Vehiculo auto = lista.stream()
                 .filter(v -> v.getId() == id).findFirst().orElse(null);
 
-        // si el vehículo filtrado por id es null es porque el id no existe en la BD
+        // si el vehículo filtrado por ID es null es porque el id no existe en la BD
         if(auto == null){
             return false;
         }

@@ -28,6 +28,11 @@ public class UserServiceImpl implements IServiceUser {
     }
 
     // GET => usando Paginación
+    /*
+    * Pagination:
+    *
+    * https://danielme.com/2023/05/24/curso-spring-data-jpa-paginacion/
+    * */
     @Override
     public Page<UserDto> getUsers(Pageable pagination) {
 
@@ -38,7 +43,7 @@ public class UserServiceImpl implements IServiceUser {
             throw new UserGenericException("No users found");
         }
         Page<UserDto> usersDto = users.map(u ->{
-              return new UserDto(u.getId(), u.getUsername(), u.getName(), u.getRoles());
+              return new UserDto(u.getId(), u.getName(), u.getUsername(), u.getRoles());
         });
         return usersDto;
     }

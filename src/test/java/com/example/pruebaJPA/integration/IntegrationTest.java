@@ -31,6 +31,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/*
+* Test de Integración con Spring Security y JWT
+*
+* https://stackoverflow.com/questions/45241566/spring-boot-unit-tests-with-jwt-token-security
+* */
 
 @AutoConfigureMockMvc
 @SpringBootTest

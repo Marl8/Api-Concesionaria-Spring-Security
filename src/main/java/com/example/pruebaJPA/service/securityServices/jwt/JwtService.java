@@ -50,4 +50,14 @@ public class JwtService {
         return Jwts.parser().verifyWith(generatedKey()).build()
                 .parseSignedClaims(token).getPayload().getSubject();
     }
+
+    /*
+     *NOTA:
+     *
+     * 1. La clave segura debe ser de más de 256 bytes o arrojará error por no
+     * considerarla lo suficientemente segura.
+     *
+     * 2. Siempre en la base de datos la contraseña debe estar encriptada por
+     * BCryptPasswordEncoder porque si no arrogará error.
+     * **/
 }
